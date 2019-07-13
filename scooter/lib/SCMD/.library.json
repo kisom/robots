@@ -1,0 +1,49 @@
+{
+    "name": "Serial Controlled Motor Driver", 
+    "version": "1.0.3", 
+    "keywords": [
+        "other"
+    ], 
+    "description": "Use this to command the SCMD and connected chain.", 
+    "frameworks": [
+        "arduino"
+    ], 
+    "platforms": [
+        "atmelavr", 
+        "atmelsam", 
+        "espressif32", 
+        "espressif8266", 
+        "intel_arc32", 
+        "microchippic32", 
+        "nordicnrf51", 
+        "nordicnrf52", 
+        "ststm32", 
+        "teensy", 
+        "timsp430"
+    ], 
+    "authors": [
+        {
+            "email": "techsupport@sparkfun.com", 
+            "url": null, 
+            "maintainer": true, 
+            "name": "SparkFun Electronics"
+        }
+    ], 
+    "repository": {
+        "type": "git", 
+        "url": "https://github.com/sparkfun/SparkFun_Serial_Controlled_Motor_Driver_Arduino_Library"
+    }, 
+    "homepage": "https://github.com/sparkfun/Serial_Controlled_Motor_Driver", 
+    "export": {
+        "include": null, 
+        "exclude": [
+            "extras", 
+            "docs", 
+            "tests", 
+            "test", 
+            "*.doxyfile", 
+            "*.pdf"
+        ]
+    }, 
+    "id": 1249
+}
