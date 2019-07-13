@@ -15,9 +15,9 @@ constexpr uint8_t		motorRight = 1;
 
 
 // Ultrasonic sensors.
-UltraSonicDistanceSensor	usdFront(8, 2);
-UltraSonicDistanceSensor	usdLeft(9, 3);
-UltraSonicDistanceSensor	usdRight(10, 4);
+UltraSonicDistanceSensor	usdFront(8, 5);
+UltraSonicDistanceSensor	usdLeft(9, 6);
+UltraSonicDistanceSensor	usdRight(10, 7);
 double				distances[3];
 
 static double	collisionThreshold = 10.0;
