@@ -1,0 +1,10 @@
+Wiring notes
+------------
+
+Try to stick to a standard scheme for wire colours:
+
++ red / black obv
++ yellow is for clocks and triggers (SCL, HC-SR04 trigger, etc)
++ green is for data buses (SDA, HC-SR04 echo)
++ blue is for general pin signals, e.g. digital I/O - an LED would
+  get a blue wire.
