@@ -1,0 +1,8 @@
++ Sain Smart 2WD chassis: https://smile.amazon.com/gp/product/B072N7QNV9/
++ Sparkfun Red Board Turbo: https://www.sparkfun.com/products/14812
++ 3x HC-SR04 (super cheap, google around)
++ 1x SparkFun Serial Controlled Motor Driver: https://www.sparkfun.com/products/13911
++ small breadboard
++ a boatload of jumper wires
++ super glue
+
