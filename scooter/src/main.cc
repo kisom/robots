@@ -8,6 +8,9 @@
 #include <SCMD_config.h>
 
 
+#define DISABLE_MOTOR	1
+
+
 // Motor control.
 SCMD				scmd;
 constexpr uint8_t		motorLeft = 0;
@@ -72,6 +75,22 @@ neoPixelColor(uint8_t r, uint8_t g, uint8_t b)
 #define NEOPIXEL_ORANGE	neoPixelColor(255, 0xa5, 0)
 
 
+#ifdef DISABLE_MOTOR
+void
+motorForward(uint8_t id, uint8_t speed)
+{
+
+}
+
+
+void
+motorBackward(uint8_t id, uint8_t speed)
+{
+
+}
+
+
+#else
 void
 motorForward(uint8_t id, uint8_t speed)
 {
@@ -84,6 +103,7 @@ motorBackward(uint8_t id, uint8_t speed)
 {
 	scmd.setDrive(id, 1, speed);
 }
+#endif
 
 
 // Motor speeds compensate for weight imbalance.
@@ -164,6 +184,7 @@ setup()
 	NEOPIXEL_BLUE;
 	Scheduler.startLoop(controlNeoPixel);
 
+	#ifndef DISABLE_MOTOR
 	if (SerialUSB) {
 		SerialUSB << "setting up motor controller" << endl;
 	}
@@ -180,6 +201,7 @@ setup()
 	scmd.inversionMode(1, 1);
 	while (scmd.busy());
 	scmd.enable();
+	#endif
 
 	Scheduler.startLoop(senseLoop);
 
