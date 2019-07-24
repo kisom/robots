@@ -9,10 +9,13 @@ namespace URS {
 // 15º.
 class HCSR04 {
 public:
-	Sensor(uint8_t trigger, uint8_t echo);
+	HCSR04(uint8_t trigger, uint8_t echo);
+
+	double	range();
 private:
 	uint8_t	trigger;
 	uint8_t	echo;
+	double	distance;
 };
 
 
