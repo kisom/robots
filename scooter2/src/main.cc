@@ -2,18 +2,18 @@
 #include <Wire.h>
 
 #include <Adafruit_MotorShield.h>
-#include <HCSR04.h>
 #include <Scheduler.h>
 #include <Streaming.h>
 
 #include <motors.h>
+#include <HCSR04.h>
 
 
 double				 distance[3];
-UltraSonicDistanceSensor	 urs[3] = {
-	UltraSonicDistanceSensor(10, 11), // Left
-	UltraSonicDistanceSensor(8, 9),   // Forward
-	UltraSonicDistanceSensor(6, 7),   // Backward
+sensors::HCSR04	 urs[3] = {
+	sensors::HCSR04(10, 11), // Left
+	sensors::HCSR04(8, 9),   // Forward
+	sensors::HCSR04(6, 7),   // Backward
 };
 
 
@@ -21,11 +21,11 @@ static void
 senseRange()
 {
 	for (uint8_t sensor = 0; sensor < 3; sensor++) {
-		distance[sensor] = urs[sensor].measureDistanceCm();
-		delay(66);
+		if (urs[sensor].ready()) {
+			distance[sensor] = urs[sensor].range();
+		}
 		yield();
 	}
-	yield();
 }
 
 

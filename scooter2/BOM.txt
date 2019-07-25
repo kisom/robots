@@ -1,0 +1,5 @@
++ Chassis kit: https://smile.amazon.com/gp/product/B01CXVA6IO/
++ HC-SR04 pack with mounting brackets: https://smile.amazon.com/gp/product/B01JG09DCK/
++ Adafruit Motor Controller Shield: https://www.adafruit.com/product/1438
++ Sparkfun Blackboard Rev C: https://www.sparkfun.com/products/15296
++ MPU-9250 breakout: https://smile.amazon.com/gp/product/B01I1J0Z7Y/
