@@ -43,11 +43,11 @@ private:
 };
 
 
-// HCSR04_Single is an HCSR04 using a single pin.
-class HCSR04_Single {
+// HCSR04SinglePin is an HCSR04 using a single pin.
+class HCSR04SinglePin {
 public:
 	// The HCSR04 is a 4-pin sensor: 5V, TTL, echo, and ground.
-	HCSR04_Single(uint8_t pin);
+	HCSR04SinglePin(uint8_t pin);
 
 	// Range returns the distance measurement from the sensor in
 	// centimetres; a range of infinity is marked as 400. If the

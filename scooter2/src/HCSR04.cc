@@ -85,7 +85,7 @@ HCSR04::ready()
 }
 
 
-HCSR04_Single::HCSR04_Single(uint8_t pin) :
+HCSR04SinglePin::HCSR04SinglePin(uint8_t pin) :
 	pin(pin), distance(-1.0), lastUpdate(initialLastUpdate)
 {
 
@@ -93,7 +93,7 @@ HCSR04_Single::HCSR04_Single(uint8_t pin) :
 
 
 double
-HCSR04_Single::range()
+HCSR04SinglePin::range()
 {
 	// Datasheet:
 	//   https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
@@ -150,11 +150,11 @@ HCSR04_Single::range()
 
 
 bool
-HCSR04_Single::ready()
+HCSR04SinglePin::ready()
 {
 	unsigned long	now = millis();
 
-	if ((now - this->lastUpdate) <= HCSR04_Single::updateDelay) {
+	if ((now - this->lastUpdate) <= HCSR04SinglePin::updateDelay) {
 		return false;
 	}
 
