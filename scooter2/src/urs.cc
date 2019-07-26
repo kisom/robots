@@ -15,7 +15,7 @@ HCSR04::HCSR04(uint8_t trigger, uint8_t echo) :
 }
 
 
-double
+float
 HCSR04::range()
 {
 	// TODO: support delay between readings, returning cached
@@ -34,7 +34,7 @@ HCSR04::range()
 	// Read the time for the echo pulse to be returned, accounting
 	// for ToF.
 	unsigned long echoDuration = pulseIn(this->echo, HIGH) >> 1;
-	this->distance = static_cast<double>(echoDuration) / 58.0;
+	this->distance = static_cast<float>(echoDuration) / 58.0;
 
 	if (this->distance < 2.1) {
 		this->distance = 0.0;

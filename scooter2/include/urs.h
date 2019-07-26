@@ -11,11 +11,11 @@ class HCSR04 {
 public:
 	HCSR04(uint8_t trigger, uint8_t echo);
 
-	double	range();
+	float	range();
 private:
 	uint8_t	trigger;
 	uint8_t	echo;
-	double	distance;
+	float	distance;
 };
 
 
