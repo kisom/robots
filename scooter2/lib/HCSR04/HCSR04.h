@@ -43,7 +43,10 @@ private:
 };
 
 
-// HCSR04SinglePin is an HCSR04 using a single pin.
+// HCSR04SinglePin is an HCSR04 using a single pin. This is a neat trick
+// that takes advantage of the fact that TTL is an input pin, and echo is
+// an output pin. Diodes may be employed to prevent the signal going in
+// the wrong direction, but in practice this hasn't been an issue yet.
 class HCSR04SinglePin {
 public:
 	// The HCSR04 is a 4-pin sensor: 5V, TTL, echo, and ground.
