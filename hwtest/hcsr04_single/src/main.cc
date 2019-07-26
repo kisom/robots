@@ -4,7 +4,7 @@
 
 
 
-sensors::HCSR04	usd(8, 9);
+sensors::HCSR04_Single	usd(8);
 
 
 void
