@@ -61,6 +61,7 @@ HCSR04::range()
 
 	// There's a little fudge factor in these distances
 	// TODO: figure out if this actually does what I think it does.
+	// Narrator voice: it didn't.
 	if (this->distance < 2.1) {
 		this->distance = 0.0;
 	} else if (this->distance > 399) {
