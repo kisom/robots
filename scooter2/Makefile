@@ -2,6 +2,7 @@ BOARD :=	uno
 FIRMWARE :=	.pioenvs/$(BOARD)/firmware.bin
 SOURCES :=					\
 		src/main.cc
+LOGFILE :=	serial.log
 
 PIO :=	pio run -e $(BOARD)
 
@@ -17,7 +18,7 @@ upload: $(FIRMWARE)
 
 .PHONY: monitor
 monitor:
-	$(PIO) -t monitor
+	$(PIO) -t monitor | tee $(LOGFILE)
 
 .PHONY: deploy
 deploy: $(FIRMWARE)
