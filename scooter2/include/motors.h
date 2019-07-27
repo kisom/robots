@@ -7,7 +7,7 @@
 
 namespace Drive {
 
-constexpr uint8_t		DefaultSpeed = 127;
+constexpr uint8_t		DefaultSpeed = 64;
 
 
 enum class Direction : uint8_t {
@@ -17,6 +17,9 @@ enum class Direction : uint8_t {
 	TurnLeft = 3,
 	TurnRight = 4
 };
+
+
+static uint8_t	prevSpeed;
 
 
 struct Belief {

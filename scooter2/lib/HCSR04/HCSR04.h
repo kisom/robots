@@ -34,7 +34,7 @@ public:
 	// Each sensor should only be sampled once every 65 ms to prevent
 	// crosstalk between the trigger and echo (e.g. not triggering
 	// before an echo has completed).
-	static const unsigned long	updateDelay = 65;
+	static const unsigned long	updateDelay = 15;
 private:
 	uint8_t		trigger;
 	uint8_t		echo;

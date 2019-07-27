@@ -156,9 +156,6 @@ Stop(bool hard)
 	if (hard) {
 		SetSpeed(0);
 	}
-	else {
-		Throttle(0);
-	}
 	drive(RELEASE, RELEASE);
 }
 
