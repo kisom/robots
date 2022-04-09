@@ -73,12 +73,44 @@ play(const char *progmemBuffer)
 
 
 void
+displayLines(const char *line1, const char *line2)
+{
+	display.clear();
+	display.print(line1);
+	display.gotoXY(0, 1);
+	display.print(line2);
+	display.display();
+}
+
+
+void
+robotKill()
+{
+	// Most important thing: stop the motors.
+	RobotState.motor = MOTOR_STOP;
+
+	displayLines(" ROBOT  ", "  KILL  ");
+	play(alertSequence);
+	motors.setSpeeds(0, 0);
+	RobotState.action = ACTION_KILL;
+
+	while (true) {
+		ledYellow(0);
+		ledRed(1);
+		delay(500);;
+		ledRed(0);
+		ledYellow(1);
+		delay(500);
+	}
+}
+
+
+void
 motorControl()
 {
 	uint8_t	current = MOTOR_STOP;
 
 	while (true) {
-		ledRed(0);
 		if (current == RobotState.motor) {
 			delay(1);
 			continue;
@@ -148,12 +180,12 @@ runningLightSetup()
 void
 setupIMU()
 {
-	Wire.start();
+	Wire.begin();
 	if (!imu.init()) {
 		RobotState.action = ACTION_KILL;
 		return;
 	}
-	img.configureForCompassHeading();
+	imu.configureForCompassHeading();
 }
 
 
@@ -161,7 +193,47 @@ void
 runIMU()
 {
 	if (imu.magDataReady()) {
-		img.readMag();
+		imu.readMag();
+	}
+	delay(1);
+}
+
+
+void
+setupBumpSensors()
+{
+	bumpSensors.calibrate();
+}
+
+
+void
+runBumpSensors()
+{
+	while (true) {
+		if (RobotState.action != ACTION_EXPLORE) {
+			delay(1);
+			continue;
+		}
+
+		bumpSensors.read();
+
+		if (bumpSensors.leftChanged() || bumpSensors.rightChanged()) {
+			if (bumpSensors.leftIsPressed()) {
+				play(alertTone);
+				RobotState.action = ACTION_BACKUP;
+				RobotState.next = ACTION_TURNR;
+				RobotState.goal = (int)(millis() + 250);
+				displayLines(" BACKUP ", " ->RIGHT ");
+			} else if (bumpSensors.rightIsPressed()) {
+				play(alertTone);
+				RobotState.action = ACTION_BACKUP;
+				RobotState.next = ACTION_TURNL;
+				RobotState.goal = (int)(millis() + 250);
+				displayLines(" BACKUP ", " ->LEFT  ");
+			}
+		}
+
+		delay(1);
 	}
 }
 
@@ -176,7 +248,28 @@ between(unsigned long val, unsigned long low, unsigned long high)
 void
 eventTimer()
 {
+	while (true) {
+		delay(1);
+	}
+}
 
+
+void
+setupKillButton()
+{
+	// buttonA.waitForRelease();
+}
+
+
+void
+runKillButton()
+{
+	while (true) {
+		if (buttonA.getSingleDebouncedPress()) {
+			robotKill();
+		}
+		delay(10);
+	}
 }
 
 
@@ -190,36 +283,55 @@ mainLoop()
 
 	switch (RobotState.action) {
 	case ACTION_EXPLORE:
-		RobotState.motors = MOTOR_FORWARD;
+		RobotState.motor = MOTOR_FORWARD;
 		break;
 	case ACTION_STOP:
-		RobotState.motors = MOTOR_STOP;
+		RobotState.motor = MOTOR_STOP;
 		break;
 	case ACTION_BACKUP:
+		ledRed(1);
+		ledYellow(1);
+		RobotState.motor = MOTOR_BACKWARD;
 		if (millis() > (unsigned long)RobotState.goal) {
-			RobotState.motors = MOTOR_STOP;
+			RobotState.motor = MOTOR_STOP;
+			delay(50);
 			RobotState.action = RobotState.next;
+			RobotState.goal = int(millis() + 1250);
 		}
 		break;
 	case ACTION_TURNR:
+		ledRed(1);
+		ledYellow(0);
+		RobotState.motor = MOTOR_RIGHT;
+		if (millis() > (unsigned long)RobotState.goal) {
+			RobotState.motor = MOTOR_STOP;
+			delay(50);
+			RobotState.action = ACTION_EXPLORE;
+			ledRed(0);
+			displayLines("EXPLORE", "");
+		}
 		break;
 	case ACTION_TURNL:
+		ledRed(0);
+		ledYellow(1);
+		RobotState.motor = MOTOR_LEFT;
+		if (millis() > (unsigned long)RobotState.goal) {
+			RobotState.motor = MOTOR_STOP;
+			delay(50);
+			RobotState.action = ACTION_EXPLORE;
+			ledYellow(0);
+			displayLines("EXPLORE", "");
+		}
 		break;
 	case ACTION_INACTIVE:
 		// fallthrough
 	case ACTION_KILL:
-		RobotState.mtoors = MOTOR_STOP;
-		if (!buzzer.isPlaying()) {
-			play(alertSequence);
-		}
-
-		ledRed(1);
-		delay(500);;
-		ledRed(0);
-		delay(500);
-		break;
-	case 
+		// fallthrough
+	default:
+		RobotState.motor = MOTOR_STOP;
+		robotKill();
 	}
+	delay(1);
 }
 
 
@@ -263,11 +375,14 @@ setup()
 	play(alertSequence);
 
 	Scheduler.start(runningLightSetup, runningLightBlink);
+	Scheduler.start(setupBumpSensors, runBumpSensors);
 	Scheduler.start(NULL, motorControl);	
 	Scheduler.start(NULL, eventTimer);
 	Scheduler.start(NULL, mainLoop);
+	Scheduler.start(setupKillButton, runKillButton);
 
 	if (RobotState.action != ACTION_KILL) {
+		displayLines("EXPLORE", "");
 		RobotState.action = ACTION_EXPLORE;
 	}
 }
