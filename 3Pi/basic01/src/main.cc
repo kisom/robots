@@ -41,12 +41,12 @@ const bool BUZZER_MUTE = false;
 #define ACTION_KILL	6
 
 
-const char	alertSequence[] PROGMEM = "<C<D8R2<C<D8";
-const char	alertTone[] PROGMEM = "<C<D8";
-const char	motorForward[] PROGMEM = "<E8<F8<E8";
-const char	motorBackward[] PROGMEM = "<F8<E8<F8";
-const char	motorLeft[] PROGMEM = "<E8<F8<G8";
-const char	motorRight[] PROGMEM = "<G8<F8<E8";
+const char	alertSequence[] PROGMEM = "O2CD8R8CD8";
+const char	alertTone[] PROGMEM = "O2CD8";
+const char	motorForward[] PROGMEM = "O3E8F8E8";
+const char	motorBackward[] PROGMEM = "O3F8E8F8";
+const char	motorLeft[] PROGMEM = "O3E8F8G8";
+const char	motorRight[] PROGMEM = "O3G8F8E8";
 
 
 struct {
