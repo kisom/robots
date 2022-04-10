@@ -8,7 +8,7 @@ function PlateHeight() = 2.5;
 module screw_hole(size, x, y, height=PlateHeight()+1) {
     union() {
        translate([x, y, -1])
-       cylinder(h=5, r=size, $fn=60); 
+       cylinder(h=height, r=size, $fn=60); 
     };
 }
 
