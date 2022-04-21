@@ -12,14 +12,26 @@ static short	tright = 0;
 static bool		enabled = false;
 static Zumo32U4Motors	motors;
 
+// correction factors
+static short	cLeft = 0;
+static short	cRight = 0;
+
 
 static short
 constrainMotor(short value)
 {
-	if (value < SPEED_MIN) {
-		value = SPEED_MIN;
-	} else if (value > SPEED_MAX) {
-		value = SPEED_MAX;
+	if (value > 0) {
+		if (value > SPEED_MAX) {
+			value = SPEED_MAX;
+		} else if (value < SPEED_STALL) {
+			value = SPEED_STALL;
+		}
+	} else {
+		if (value < SPEED_MIN) {
+			value = SPEED_MIN;
+		} else if (value < -SPEED_STALL) {
+			value = -SPEED_STALL;
+		}
 	}
 
 	return value;
@@ -42,8 +54,8 @@ rampValues(short value, short target)
 		invert = true;
 	}
 
-	if (delta > 10) {
-		delta = 10;
+	if (delta > MOTOR_BIG_DELTA) {
+		delta = MOTOR_BIG_DELTA;
 	} else {
 		delta = 1;
 	}
@@ -151,6 +163,35 @@ short
 getRight()
 {
 	return right;
+}
+
+
+// Tweaks to account for variances in motors.
+void
+tweakLeftUp()
+{
+	cLeft++;
+}
+
+
+void
+tweakLeftDown()
+{
+	cLeft--;
+}
+
+
+void
+tweakRightUp()
+{
+	cRight++;
+}
+
+
+void
+tweakRightDown()
+{
+	cRight--;
 }
 
 
